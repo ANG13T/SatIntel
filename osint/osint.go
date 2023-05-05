@@ -7,7 +7,8 @@ import (
 
 func Banner() {
 	banner, _ := ioutil.ReadFile("txt/banner.txt")
+	info, _ := ioutil.ReadFile("txt/info.txt")
 	g,_:=gradient.NewGradient("cyan", "blue")
 	g.Print(string(banner))
-	g.Print("Developed by Angelina Tsuboi")
+	g.Print(string(info))
 }
