@@ -3,12 +3,17 @@ package osint
 import (
 	"fmt"
 	"io/ioutil"
-	"net/http"
-	"net/url"
+	"github.com/iskaa02/qalam"
 )
 
 func Banner() {
-	banner, err := ioutil.ReadFile("../txt/banner.txt")
-	res(err)
+	banner, _ := ioutil.ReadFile("txt/banner.txt")
 	fmt.Println("\033[37m", string(banner))
+
+	s:=qalam.NewStyler().
+		Bold().
+		Italic().
+		Red()
+	// This will print bold italic red text to the terminal
+	s.Print("Hello world")
 }
