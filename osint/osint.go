@@ -5,6 +5,11 @@ import (
 	"github.com/iskaa02/qalam/gradient"
 )
 
+func SatIntel() {
+	Banner()
+
+}
+
 func Banner() {
 	banner, _ := ioutil.ReadFile("txt/banner.txt")
 	info, _ := ioutil.ReadFile("txt/info.txt")
