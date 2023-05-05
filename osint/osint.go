@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"github.com/iskaa02/qalam/gradient"
+	"github.com/TwiN/go-color"
 	"strconv"
 )
 
@@ -13,10 +14,20 @@ func Option() {
 	fmt.Scanln(&selection)
 	num, err := strconv.Atoi(selection)
     if err != nil {
-        fmt.Println("Warning: Input is not a number")
+		fmt.Println(color.Ize(color.Red, "  [!] INVALID INPUT"))
+		Option()
     } else {
-        fmt.Println("Number entered:", num)
+        if (num >= 0  && num < 5) {
+			DisplayFunctions()
+		} else {
+			fmt.Println(color.Ize(color.Red, "  [!] INVALID INPUT"))
+			Option()
+		}
     }
+}
+
+func DisplayFunctions() {
+	fmt.Print("heh")
 }
 
 func Banner() {

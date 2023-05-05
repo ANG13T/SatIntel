@@ -3,6 +3,7 @@ module github.com/ANG13T/SatIntel
 go 1.20
 
 require (
+	github.com/TwiN/go-color v1.4.0 // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
