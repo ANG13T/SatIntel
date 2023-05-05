@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"github.com/iskaa02/qalam/gradient"
 	"github.com/TwiN/go-color"
+	"github.com/ANG13T/SatIntel/osint"
 	"strconv"
 	"os"
 )
@@ -31,6 +32,8 @@ func DisplayFunctions(x int) {
 	if (x == 0) {
 		fmt.Println(color.Ize(color.Blue, " Escaping Orbit..."))
 		os.Exit(1)
+	} else if (x == 4) {
+		osint.TLEParser()
 	}
 }
 
