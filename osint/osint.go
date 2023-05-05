@@ -1,13 +1,22 @@
 package osint
 
 import (
+	"fmt"
 	"io/ioutil"
 	"github.com/iskaa02/qalam/gradient"
+	"strconv"
 )
 
-func SatIntel() {
-	Banner()
-
+func Option() {
+	fmt.Print("\n ENTER INPUT > ")
+	var selection string
+	fmt.Scanln(&selection)
+	num, err := strconv.Atoi(selection)
+    if err != nil {
+        fmt.Println("Warning: Input is not a number")
+    } else {
+        fmt.Println("Number entered:", num)
+    }
 }
 
 func Banner() {
@@ -20,4 +29,9 @@ func Banner() {
 	g.Print(string(banner))
 	solid.Print(string(info))
 	opt.Print("\n" + string(options))
+}
+
+func SatIntel() {
+	Banner()
+	Option()
 }
