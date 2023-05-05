@@ -1,19 +1,15 @@
 package osint
 
 import (
-	"fmt"
 	"io/ioutil"
-	"github.com/iskaa02/qalam"
+	"github.com/iskaa02/qalam/gradient"
 )
 
 func Banner() {
 	banner, _ := ioutil.ReadFile("txt/banner.txt")
-	fmt.Println("\033[37m", string(banner))
+	g,err:=gradient.NewGradient("purple", "cyan", "blue")
 
-	s:=qalam.NewStyler().
-		Bold().
-		Italic().
-		Red()
-	// This will print bold italic red text to the terminal
-	s.Print("Hello world")
+	if err != nil{
+	}
+	g.Print(string(banner))
 }
