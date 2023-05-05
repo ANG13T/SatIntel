@@ -1,4 +1,4 @@
-package osint
+package cli
 
 import (
 	"fmt"
@@ -6,6 +6,7 @@ import (
 	"github.com/iskaa02/qalam/gradient"
 	"github.com/TwiN/go-color"
 	"strconv"
+	"os"
 )
 
 func Option() {
@@ -18,7 +19,7 @@ func Option() {
 		Option()
     } else {
         if (num >= 0  && num < 5) {
-			DisplayFunctions()
+			DisplayFunctions(num)
 		} else {
 			fmt.Println(color.Ize(color.Red, "  [!] INVALID INPUT"))
 			Option()
@@ -26,8 +27,11 @@ func Option() {
     }
 }
 
-func DisplayFunctions() {
-	fmt.Print("heh")
+func DisplayFunctions(x int) {
+	if (x == 0) {
+		fmt.Println(color.Ize(color.Blue, " Escaping Orbit..."))
+		os.Exit(1)
+	}
 }
 
 func Banner() {

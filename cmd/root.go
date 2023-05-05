@@ -8,7 +8,7 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
-	"github.com/ANG13T/SatIntel/osint"
+	"github.com/ANG13T/SatIntel/cli"
 )
 
 var rootCmd = &cobra.Command{
@@ -21,7 +21,7 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		osint.SatIntel()
+		cli.SatIntel()
 	},
 }
 
