@@ -8,7 +8,6 @@ import (
 	"github.com/iskaa02/qalam/gradient"	
 	"io/ioutil"
 	"strconv"
-	"strings"
 )
 
 type TLE struct {
@@ -68,8 +67,6 @@ func TLETextFile() {
 		txtlines = append(txtlines, scanner.Text())
 		count += 1
 	}
-
-	output := TLE{}
  
 	file.Close()
 
@@ -77,31 +74,23 @@ func TLETextFile() {
 		fmt.Println(color.Ize(color.Red, "  [!] INVALID TLE FORMAT"))
 		return
 	}
- 
-	for index, eachline := range txtlines {
-		fmt.Println(eachline)
-		if (count == 2) {
-			output.CommonName = "UNDEFINED"
-			line := strings.Split(eachline, " ")
-			fmt.Println(line[0]) 
-			if (index == 0) {
 
-			} else {
+	output := TLE{}
 
-			}
-		} else {
-			line := strings.Split(eachline, " ")
-			fmt.Println(line[0]) 
-			if (index == 0) {
-
-			} else if (index == 1) {
-				
-			} else {
-				
-			}
-		}
+	if (count == 3) {
+		var satelliteName string = txtlines[0]
+		output = ConstructTLE(satelliteName, txtlines[1], txtlines[2])
+	} else {
+		output = ConstructTLE("UNSPECIFIED", txtlines[0], txtlines[1])
 	}
+
 	fmt.Println(count, output)
+}
+
+func ConstructTLE(one string, two string, three string) TLE {
+	output := TLE{}
+	output.CommonName = one
+	return output
 }
 
 func TLEPlainString(){
