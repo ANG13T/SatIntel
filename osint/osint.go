@@ -91,26 +91,28 @@ func TLETextFile() {
 func ConstructTLE(one string, two string, three string) TLE {
 	tle := TLE{}
 	tle.CommonName = one
-	firstArr := strings.Split(two, "")
-	secondArr := strings.Split(three, "")
-	tle.SatelliteCatalogNumber, _ = strconv.Atoi(firstArr[1])
-	tle.ElsetClassificiation = firstArr[2]
-	tle.InternationalDesignator = firstArr[3]
-	tle.ElementSetEpoch, _ = strconv.ParseFloat(firstArr[4], 64)
-	tle.FirstDerivativeMeanMotion, _ = strconv.ParseFloat(firstArr[5], 64)
-	tle.SecondDerivativeMeanMotion = firstArr[6]
-	tle.BDragTerm = firstArr[7]
-	tle.ElementSetType, _ = strconv.Atoi(firstArr[8])
-	tle.ElementNumber, _ = strconv.Atoi(firstArr[9])
-	tle.ChecksumOne, _ = strconv.Atoi(firstArr[10])
-	tle.OrbitInclination, _ = strconv.ParseFloat(secondArr[1], 64)
-	tle.RightAscension, _ = strconv.ParseFloat(secondArr[2], 64)
-	tle.Eccentrcity, _ = strconv.ParseFloat(secondArr[3], 64)
-	tle.Perigee, _ = strconv.ParseFloat(secondArr[4], 64)
-	tle.MeanAnamoly, _ = strconv.ParseFloat(secondArr[5], 64)
-	tle.MeanMotion, _ = strconv.ParseFloat(secondArr[6], 64)
-	tle.RevolutionNumber, _ = strconv.Atoi(secondArr[7])
-	tle.ChecksumTwo, _ = strconv.Atoi(secondArr[8])
+	firstArr := strings.Fields(two)
+	secondArr := strings.Fields(three)
+	tle.SatelliteCatalogNumber, _ = strconv.Atoi(firstArr[1][:len(firstArr[1])-1])
+	tle.ElsetClassificiation = string(firstArr[1][len(firstArr[1])-1])
+	tle.InternationalDesignator = firstArr[2]
+	tle.ElementSetEpoch, _ = strconv.ParseFloat(firstArr[3], 64)
+	tle.FirstDerivativeMeanMotion, _ = strconv.ParseFloat(firstArr[4], 64)
+	tle.SecondDerivativeMeanMotion = firstArr[5]
+	tle.BDragTerm = firstArr[6]
+	tle.ElementSetType, _ = strconv.Atoi(firstArr[7])
+	tle.ElementNumber, _ = strconv.Atoi(firstArr[8][:len(firstArr[8])-1])
+	tle.ChecksumOne, _ = strconv.Atoi(string(firstArr[8][len(firstArr[8])-1]))
+	tle.SatelliteCatalogNumber, _ = strconv.Atoi(secondArr[1])
+	tle.OrbitInclination, _ = strconv.ParseFloat(secondArr[2], 64)
+	tle.RightAscension, _ = strconv.ParseFloat(secondArr[3], 64)
+	tle.Eccentrcity, _ = strconv.ParseFloat("0." + secondArr[4], 64)
+	tle.Perigee, _ = strconv.ParseFloat(secondArr[5], 64)
+	tle.MeanAnamoly, _ = strconv.ParseFloat(secondArr[6], 64)
+	fmt.Println(secondArr[7])
+	tle.MeanMotion, _ = strconv.ParseFloat(secondArr[7][:11], 64)
+	tle.RevolutionNumber, _ = strconv.Atoi(secondArr[7][11:16])
+	tle.ChecksumTwo, _ = strconv.Atoi(string(secondArr[7][len(secondArr[7])-1]))
 
 	return tle
 }
@@ -146,7 +148,7 @@ func TLEPlainString(){
 // TODO: Right Ascension of Ascending Node (degrees)
 
 func PrintTLE (tle TLE) {
-	fmt.Println(color.Ize(color.Purple, "╔═════════════════════════════════════════════════════════════╗"))
+	fmt.Println(color.Ize(color.Purple, "\n╔═════════════════════════════════════════════════════════════╗"))
 	fmt.Println(color.Ize(color.Purple, GenRowString("Name", tle.CommonName)))
 	fmt.Println(color.Ize(color.Purple, GenRowString("Satellite Catalog Number", fmt.Sprintf("%d", tle.SatelliteCatalogNumber))))
 	fmt.Println(color.Ize(color.Purple, GenRowString("Elset Classification", tle.ElsetClassificiation)))
