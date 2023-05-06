@@ -4,6 +4,6 @@ import (
 	"fmt"
 )
 
-func TLEParse(){
+func TLEParser(){
 	fmt.Println("Parsing TLE")
 }
