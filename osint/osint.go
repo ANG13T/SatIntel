@@ -8,6 +8,7 @@ import (
 	"github.com/iskaa02/qalam/gradient"	
 	"io/ioutil"
 	"strconv"
+	"strings"
 )
 
 type TLE struct {
@@ -32,7 +33,7 @@ type TLE struct {
 	ChecksumTwo int
 }
 
-func TLEParser(){
+func TLEParser() {
 	options, _ := ioutil.ReadFile("txt/tle_parser.txt")
 	opt,_:=gradient.NewGradient("#1179ef", "cyan")
 	opt.Print("\n" + string(options))
@@ -47,10 +48,11 @@ func TLEParser(){
 	return
 }
 
-func TLETextFile(){
+func TLETextFile() {
 
-	fmt.Print("\n ENTER INPUT > ")
+	fmt.Print("\n ENTER TEXT FILE PATH > ")
 	var path string
+	fmt.Scanln(&path)
 	file, err := os.Open(path)
  
 	if err != nil {
@@ -60,22 +62,56 @@ func TLETextFile(){
 	scanner := bufio.NewScanner(file)
 	scanner.Split(bufio.ScanLines)
 	var txtlines []string
+	var count int = 0
  
 	for scanner.Scan() {
 		txtlines = append(txtlines, scanner.Text())
+		count += 1
 	}
+
+	output := TLE{}
  
 	file.Close()
- 
-	for _, eachline := range txtlines {
-		fmt.Println(eachline)
+
+	if (count < 2 || count > 3) {
+		fmt.Println(color.Ize(color.Red, "  [!] INVALID TLE FORMAT"))
+		return
 	}
+ 
+	for index, eachline := range txtlines {
+		fmt.Println(eachline)
+		if (count == 2) {
+			output.CommonName = "UNDEFINED"
+			line := strings.Split(eachline, " ")
+			fmt.Println(line[0]) 
+			if (index == 0) {
+
+			} else {
+
+			}
+		} else {
+			line := strings.Split(eachline, " ")
+			fmt.Println(line[0]) 
+			if (index == 0) {
+
+			} else if (index == 1) {
+				
+			} else {
+				
+			}
+		}
+	}
+	fmt.Println(count, output)
 }
 
 func TLEPlainString(){
 	fmt.Print("\n ENTER TLE > ")
 	var tleString string
 	fmt.Scanln(&tleString)
+}
+
+func PrintTLE (tle TLE) {
+
 }
 
 func Option(min int, max int) int {
