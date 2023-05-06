@@ -85,7 +85,6 @@ func TLETextFile() {
 		output = ConstructTLE("UNSPECIFIED", txtlines[0], txtlines[1])
 	}
 
-	fmt.Println(count, output)
 	PrintTLE(output)
 }
 
@@ -117,9 +116,31 @@ func ConstructTLE(one string, two string, three string) TLE {
 }
 
 func TLEPlainString(){
-	fmt.Print("\n ENTER TLE > ")
-	var tleString string
-	fmt.Scanln(&tleString)
+	scanner := bufio.NewScanner(os.Stdin)
+	var lineOne string
+	var lineTwo string
+	var lineThree string
+	fmt.Print("\n ENTER LINE ONE (leave blank for unspecified name)  >  ")
+	scanner.Scan()
+    lineOne = scanner.Text()
+
+	fmt.Print("\n ENTER LINE TWO  >  ")
+	scanner.Scan()
+    lineTwo = scanner.Text()
+
+	fmt.Print("\n ENTER LINE THREE  >  ")
+	scanner.Scan()
+    lineThree = scanner.Text()
+
+	if (lineOne == "") {
+		lineOne = "UNSPECIFIED"
+	}
+	
+	output := TLE{}
+
+	output = ConstructTLE(lineOne, lineTwo, lineThree)
+
+	PrintTLE(output)
 }
 
 // TODO: Right Ascension of Ascending Node (degrees)
@@ -176,4 +197,3 @@ func Option(min int, max int) int {
 		}
     }
 }
-
