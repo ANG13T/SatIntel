@@ -37,9 +37,14 @@ func TLEParser(){
 	opt,_:=gradient.NewGradient("#1179ef", "cyan")
 	opt.Print("\n" + string(options))
 	var selection int = Option(0, 3)
-	if (selection == 3) {
-		return
-	}
+
+	if (selection == 1){
+		TLETextFile()
+	} else if (selection == 2) {
+		TLEPlainString()
+	} 
+
+	return
 }
 
 func TLETextFile(){
@@ -67,6 +72,12 @@ func TLETextFile(){
 	}
 }
 
+func TLEPlainString(){
+	fmt.Print("\n ENTER TLE > ")
+	var tleString string
+	fmt.Scanln(&tleString)
+}
+
 func Option(min int, max int) int {
 	fmt.Print("\n ENTER INPUT > ")
 	var selection string
@@ -76,7 +87,11 @@ func Option(min int, max int) int {
 		fmt.Println(color.Ize(color.Red, "  [!] INVALID INPUT"))
 		return Option(min, max)
     } else {
-        if (num >= min  && num < max + 1) {
+		if (num == min) {
+			fmt.Println(color.Ize(color.Blue, " Escaping Orbit..."))
+			os.Exit(1)
+			return 0
+		} else if (num > min  && num < max + 1) {
 			return num
 		} else {
 			fmt.Println(color.Ize(color.Red, "  [!] INVALID INPUT"))
@@ -85,6 +100,3 @@ func Option(min int, max int) int {
     }
 }
 
-func TLEPlainString(input string){
-
-}
