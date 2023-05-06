@@ -8,6 +8,7 @@ import (
 	"github.com/iskaa02/qalam/gradient"	
 	"io/ioutil"
 	"strconv"
+	"strings"
 )
 
 type TLE struct {
@@ -15,19 +16,19 @@ type TLE struct {
 	SatelliteCatalogNumber int
 	ElsetClassificiation string
 	InternationalDesignator string
-	ElementSetEpoch float32
-	FirstDerivativeMeanMotion float32
+	ElementSetEpoch float64
+	FirstDerivativeMeanMotion float64
 	SecondDerivativeMeanMotion string
 	BDragTerm string
 	ElementSetType int
 	ElementNumber int
 	ChecksumOne int
-	OrbitInclination float32
-	RightAscension float32
-	Eccentrcity float32
-	Perigee float32
-	MeanAnamoly float32
-	MeanMotion float32
+	OrbitInclination float64
+	RightAscension float64
+	Eccentrcity float64
+	Perigee float64
+	MeanAnamoly float64
+	MeanMotion float64
 	RevolutionNumber int
 	ChecksumTwo int
 }
@@ -88,9 +89,30 @@ func TLETextFile() {
 }
 
 func ConstructTLE(one string, two string, three string) TLE {
-	output := TLE{}
-	output.CommonName = one
-	return output
+	tle := TLE{}
+	tle.CommonName = one
+	firstArr := strings.Split(two, "")
+	secondArr := strings.Split(three, "")
+	tle.SatelliteCatalogNumber, _ = strconv.Atoi(firstArr[1])
+	tle.ElsetClassificiation = firstArr[2]
+	tle.InternationalDesignator = firstArr[3]
+	tle.ElementSetEpoch, _ = strconv.ParseFloat(firstArr[4], 64)
+	tle.FirstDerivativeMeanMotion, _ = strconv.ParseFloat(firstArr[5], 64)
+	tle.SecondDerivativeMeanMotion = firstArr[6]
+	tle.BDragTerm = firstArr[7]
+	tle.ElementSetType, _ = strconv.Atoi(firstArr[8])
+	tle.ElementNumber, _ = strconv.Atoi(firstArr[9])
+	tle.ChecksumOne, _ = strconv.Atoi(firstArr[10])
+	tle.OrbitInclination, _ = strconv.ParseFloat(secondArr[1], 64)
+	tle.RightAscension, _ = strconv.ParseFloat(secondArr[2], 64)
+	tle.Eccentrcity, _ = strconv.ParseFloat(secondArr[3], 64)
+	tle.Perigee, _ = strconv.ParseFloat(secondArr[4], 64)
+	tle.MeanAnamoly, _ = strconv.ParseFloat(secondArr[5], 64)
+	tle.MeanMotion, _ = strconv.ParseFloat(secondArr[6], 64)
+	tle.RevolutionNumber, _ = strconv.Atoi(secondArr[7])
+	tle.ChecksumTwo, _ = strconv.Atoi(secondArr[8])
+
+	return tle
 }
 
 func TLEPlainString(){
