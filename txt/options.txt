@@ -2,9 +2,9 @@
 
                         [ 1 ]   Orbital Element Data Display
 
-                        [ 2 ]   Orbital TLE Visualization
+                        [ 2 ]   Satellite Position Visualization
 
-                        [ 3 ]   Satellite Imagery 
+                        [ 3 ]   Visual and Radio Passes Predictions 
 
                         [ 4 ]   TLE Parser
 

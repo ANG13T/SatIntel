@@ -109,7 +109,6 @@ func ConstructTLE(one string, two string, three string) TLE {
 	tle.Eccentrcity, _ = strconv.ParseFloat("0." + secondArr[4], 64)
 	tle.Perigee, _ = strconv.ParseFloat(secondArr[5], 64)
 	tle.MeanAnamoly, _ = strconv.ParseFloat(secondArr[6], 64)
-	fmt.Println(secondArr[7])
 	tle.MeanMotion, _ = strconv.ParseFloat(secondArr[7][:11], 64)
 	tle.RevolutionNumber, _ = strconv.Atoi(secondArr[7][11:16])
 	tle.ChecksumTwo, _ = strconv.Atoi(string(secondArr[7][len(secondArr[7])-1]))
@@ -169,7 +168,7 @@ func PrintTLE (tle TLE) {
 	fmt.Println(color.Ize(color.Purple, GenRowString("Revolution Number at Epoch", fmt.Sprintf("%d", tle.RevolutionNumber))))
 	fmt.Println(color.Ize(color.Purple, GenRowString("Checksum Line Two", fmt.Sprintf("%d", tle.ChecksumTwo))))
 	
-	fmt.Println(color.Ize(color.Purple, "╚═════════════════════════════════════════════════════════════╝ \n"))
+	fmt.Println(color.Ize(color.Purple, "╚═════════════════════════════════════════════════════════════╝ \n\n"))
 }
 
 func GenRowString(intro string, input string) string{

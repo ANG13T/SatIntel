@@ -3,12 +3,14 @@
 Made by Angelina Tsuboi (G4LXY)
 
 ## TODO
-- Exiting
-- TLE Parser
-
-
 - 1
 - 2
 - 3
-- Flags
+- Flags?
+- help
 - Documentation
+- article
+
+# APIS
+- space-track.org
+- n2yo.com/api
