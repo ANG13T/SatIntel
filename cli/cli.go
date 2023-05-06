@@ -32,6 +32,10 @@ func DisplayFunctions(x int) {
 	if (x == 0) {
 		fmt.Println(color.Ize(color.Blue, " Escaping Orbit..."))
 		os.Exit(1)
+	} else if (x == 1) {
+		osint.OrbitalElement()
+		Banner()
+		Option()
 	} else if (x == 4) {
 		osint.TLEParser()
 		Banner()

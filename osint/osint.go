@@ -33,6 +33,14 @@ type TLE struct {
 	ChecksumTwo int
 }
 
+
+// Orbital Element Data Display Code
+func OrbitalElement() {
+	
+}
+
+// TLE Parser Code
+
 func TLEParser() {
 	options, _ := ioutil.ReadFile("txt/tle_parser.txt")
 	opt,_:=gradient.NewGradient("#1179ef", "cyan")
