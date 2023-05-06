@@ -86,6 +86,7 @@ func TLETextFile() {
 	}
 
 	fmt.Println(count, output)
+	PrintTLE(output)
 }
 
 func ConstructTLE(one string, two string, three string) TLE {
@@ -121,8 +122,37 @@ func TLEPlainString(){
 	fmt.Scanln(&tleString)
 }
 
-func PrintTLE (tle TLE) {
+// TODO: Right Ascension of Ascending Node (degrees)
 
+func PrintTLE (tle TLE) {
+	fmt.Println(color.Ize(color.Purple, "╔═════════════════════════════════════════════════════════════╗"))
+	fmt.Println(color.Ize(color.Purple, GenRowString("Name", tle.CommonName)))
+	fmt.Println(color.Ize(color.Purple, GenRowString("Satellite Catalog Number", fmt.Sprintf("%d", tle.SatelliteCatalogNumber))))
+	fmt.Println(color.Ize(color.Purple, GenRowString("Elset Classification", tle.ElsetClassificiation)))
+	fmt.Println(color.Ize(color.Purple, GenRowString("International Designator", tle.InternationalDesignator)))
+	fmt.Println(color.Ize(color.Purple, GenRowString("Element Set Epoch (UTC)", fmt.Sprintf("%f", tle.ElementSetEpoch))))
+	fmt.Println(color.Ize(color.Purple, GenRowString("1st Derivative of the Mean Motion", fmt.Sprintf("%f", tle.FirstDerivativeMeanMotion))))
+	fmt.Println(color.Ize(color.Purple, GenRowString("2nd Derivative of the Mean Motion", tle.SecondDerivativeMeanMotion)))
+	fmt.Println(color.Ize(color.Purple, GenRowString("B* Drag Term", tle.BDragTerm)))
+	fmt.Println(color.Ize(color.Purple, GenRowString("Element Set Type", fmt.Sprintf("%d", tle.ElementSetType))))
+	fmt.Println(color.Ize(color.Purple, GenRowString("Element Number", fmt.Sprintf("%d", tle.ElementNumber))))
+	fmt.Println(color.Ize(color.Purple, GenRowString("Checksum Line One", fmt.Sprintf("%d", tle.ChecksumOne))))
+	fmt.Println(color.Ize(color.Purple, GenRowString("Orbit Inclination (degrees)", fmt.Sprintf("%f", tle.OrbitInclination))))
+	fmt.Println(color.Ize(color.Purple, GenRowString("Right Ascension of Ascending Node (degrees)", fmt.Sprintf("%f", tle.RightAscension))))
+	fmt.Println(color.Ize(color.Purple, GenRowString("Eccentricity", fmt.Sprintf("%f", tle.Eccentrcity))))
+	fmt.Println(color.Ize(color.Purple, GenRowString("Argument of Perigee (degrees)", fmt.Sprintf("%f", tle.Perigee))))
+	fmt.Println(color.Ize(color.Purple, GenRowString("Mean Anomaly (degrees)", fmt.Sprintf("%f", tle.MeanAnamoly))))
+	fmt.Println(color.Ize(color.Purple, GenRowString("Mean Motion (revolutions/day)", fmt.Sprintf("%f", tle.MeanMotion))))
+	fmt.Println(color.Ize(color.Purple, GenRowString("Revolution Number at Epoch", fmt.Sprintf("%d", tle.RevolutionNumber))))
+	fmt.Println(color.Ize(color.Purple, GenRowString("Checksum Line Two", fmt.Sprintf("%d", tle.ChecksumTwo))))
+	
+	fmt.Println(color.Ize(color.Purple, "╚═════════════════════════════════════════════════════════════╝ \n"))
+}
+
+func GenRowString(intro string, input string) string{
+	var totalCount int = 4 + len(intro) + len(input) + 2
+	var useCount = 63 - totalCount
+	return "║ " + intro + ": " + input + strings.Repeat(" ", useCount) + " ║"
 }
 
 func Option(min int, max int) int {
