@@ -34,6 +34,8 @@ func DisplayFunctions(x int) {
 		os.Exit(1)
 	} else if (x == 4) {
 		osint.TLEParser()
+		Banner()
+		Option()
 	}
 }
 

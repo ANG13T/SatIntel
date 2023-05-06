@@ -5,9 +5,12 @@ import (
 	"bufio"
 	"os"
 	"github.com/TwiN/go-color"
+	"github.com/iskaa02/qalam/gradient"	
+	"io/ioutil"
+	"strconv"
 )
 
-type struct TLE {
+type TLE struct {
 	CommonName string
 	SatelliteCatalogNumber int
 	ElsetClassificiation string
@@ -30,12 +33,17 @@ type struct TLE {
 }
 
 func TLEParser(){
-	fmt.Println("Parsing TLE")
-
+	options, _ := ioutil.ReadFile("txt/tle_parser.txt")
+	opt,_:=gradient.NewGradient("#1179ef", "cyan")
+	opt.Print("\n" + string(options))
+	var selection int = Option(0, 3)
+	if (selection == 3) {
+		return
+	}
 }
 
 func TLETextFile(){
-	
+
 	fmt.Print("\n ENTER INPUT > ")
 	var path string
 	file, err := os.Open(path)
@@ -59,6 +67,24 @@ func TLETextFile(){
 	}
 }
 
-func TLEPlainString(string input){
+func Option(min int, max int) int {
+	fmt.Print("\n ENTER INPUT > ")
+	var selection string
+	fmt.Scanln(&selection)
+	num, err := strconv.Atoi(selection)
+    if err != nil {
+		fmt.Println(color.Ize(color.Red, "  [!] INVALID INPUT"))
+		return Option(min, max)
+    } else {
+        if (num >= min  && num < max + 1) {
+			return num
+		} else {
+			fmt.Println(color.Ize(color.Red, "  [!] INVALID INPUT"))
+			return Option(min, max)
+		}
+    }
+}
+
+func TLEPlainString(input string){
 
 }
