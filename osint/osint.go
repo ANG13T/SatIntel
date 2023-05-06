@@ -9,6 +9,9 @@ import (
 	"io/ioutil"
 	"strconv"
 	"strings"
+	"encoding/json"
+	"net/http"	
+	"net/url"
 )
 
 type TLE struct {
@@ -33,10 +36,87 @@ type TLE struct {
 	ChecksumTwo int
 }
 
+type field string
+type orderBy string
+const authURL = "https://www.space-track.org/ajaxauth/login"
+const baseurl = "https://www.space-track.org/basicspacedata/query/class"
+const epoch field = "EPOCH"
+const tle field = "TLE"
+const noradCatID field = "NORAD_CAT_ID"
+const asc orderBy = "asc"
+const desc orderBy = "desc"
+
+type operator string
+
+const dq operator = ""
+const lt operator = "<"
+
+type SatcatResponse struct {
+	Result []struct {
+		InternationalDesignator string `json:"INTLDES"`
+	} `json:"Results"`
+}
+
+type spacetrackArgs struct {
+	base         string
+	class        field
+	orderByField field
+	orderByDir   orderBy
+	limit        uint64
+	filters      filters
+}
+
+type filters []filter
+type filter struct {
+	filterType field
+	operator   operator
+	value      string
+}
+
+func (f filters) render() string {
+	results := []string{}
+	for _, f := range f {
+		results = append(results, f.render())
+	}
+	return strings.Join(results, "/")
+}
+
+func (f filter) render() string {
+	return fmt.Sprint(f.filterType, "/", f.operator, f.value)
+}
+
 
 // Orbital Element Data Display Code
 func OrbitalElement() {
-	
+	// NORAD ID or Catalog Display
+	vals := url.Values{}
+	vals.Add("identity", os.Getenv("SPACE_TRACK_USERNAME"))
+	vals.Add("password", os.Getenv("SPACE_TRACK_PASSWORD"))
+	vals.Add("query", "https://www.space-track.org/basicspacedata/query/class/satcat/orderby/SATNAME asc/limit/10/emptyresult/show")
+
+	client := &http.Client{}
+
+	resp, err := client.PostForm(authURL, vals)
+	if err != nil {
+		fmt.Println("0-")
+	}
+
+	defer resp.Body.Close()
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		fmt.Println("1-")
+	}
+	respData, err := ioutil.ReadAll(resp.Body)
+
+	if err != nil {
+		fmt.Println("lols")
+	}
+
+	var sats []Satellite
+	if err := json.Unmarshal(respData, &sats); err != nil {
+		fmt.Println("2-")
+	}
+
+	fmt.Println(sats, len(sats))
 }
 
 // TLE Parser Code

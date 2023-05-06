@@ -4,8 +4,13 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 */
 package main
 
-import "github.com/ANG13T/SatIntel/cmd"
+import (
+	"os"
+	"github.com/ANG13T/SatIntel/cli"
+)
 
 func main() {
-	cmd.Execute()
+	os.Setenv("SPACE_TRACK_USERNAME", "username")
+	os.Setenv("SPACE_TRACK_PASSWORD", "password")
+	cli.SatIntel()
 }
