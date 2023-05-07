@@ -15,28 +15,6 @@ import (
 	"net/url"
 )
 
-type TLE struct {
-	CommonName string
-	SatelliteCatalogNumber int
-	ElsetClassificiation string
-	InternationalDesignator string
-	ElementSetEpoch float64
-	FirstDerivativeMeanMotion float64
-	SecondDerivativeMeanMotion string
-	BDragTerm string
-	ElementSetType int
-	ElementNumber int
-	ChecksumOne int
-	OrbitInclination float64
-	RightAscension float64
-	Eccentrcity float64
-	Perigee float64
-	MeanAnamoly float64
-	MeanMotion float64
-	RevolutionNumber int
-	ChecksumTwo int
-}
-
 type field string
 type orderBy string
 const authURL = "https://www.space-track.org/ajaxauth/login"
@@ -140,6 +118,66 @@ func PrintNORADInfo(norad string) {
 	lineTwo := strings.Join(tleLines[mid:], " ")
 	tle := ConstructTLE("UNSPECIFIED", lineOne, lineTwo)
 	PrintTLE(tle)
+}
+
+// Satellite Position Visualization Code
+func SatellitePositionVisualization() {
+	options, _ := ioutil.ReadFile("txt/orbital_element.txt")
+	opt,_:=gradient.NewGradient("#1179ef", "cyan")
+	opt.Print("\n" + string(options))
+	var selection int = Option(0, 3)
+
+	if (selection == 1) {
+		vals := url.Values{}
+		vals.Add("identity", os.Getenv("SPACE_TRACK_USERNAME"))
+		vals.Add("password", os.Getenv("SPACE_TRACK_PASSWORD"))
+		vals.Add("query", "https://www.space-track.org/basicspacedata/query/class/satcat/orderby/SATNAME asc/limit/10/emptyresult/show")
+	
+		client := &http.Client{}
+	
+		resp, err := client.PostForm(authURL, vals)
+		if err != nil {
+			fmt.Println(color.Ize(color.Red, "  [!] ERROR: API REQUEST TO SPACE TRACK"))
+		}
+	
+		defer resp.Body.Close()
+		if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+			fmt.Println(color.Ize(color.Red, "  [!] ERROR: API REQUEST TO SPACE TRACK"))
+		}
+		respData, err := ioutil.ReadAll(resp.Body)
+	
+		if err != nil {
+			fmt.Println(color.Ize(color.Red, "  [!] ERROR: API REQUEST TO SPACE TRACK"))
+		}
+	
+		var sats []Satellite
+		if err := json.Unmarshal(respData, &sats); err != nil {
+			fmt.Println(color.Ize(color.Red, "  [!] ERROR: API REQUEST TO SPACE TRACK"))
+		}
+
+		var satStrings []string
+		for _, sat := range sats {
+			satStrings = append(satStrings, sat.SATNAME + " (" + sat.NORAD_CAT_ID + ")")
+		}
+		prompt := promptui.Select{
+			Label: "Select a Satellite 🛰",
+			Items: satStrings,
+		}
+		_, result, err := prompt.Run()
+		if err != nil {
+			fmt.Println(color.Ize(color.Red, "  [!] PROMPT FAILED"))
+			return
+		}
+		PrintNORADInfo(extractNorad(result))
+
+	} else if (selection == 2) {
+		fmt.Print("\n ENTER NORAD ID > ")
+		var norad string
+		fmt.Scanln(&norad)
+		PrintNORADInfo(norad)
+	} 
+
+	return
 }
 
 // TLE Parser Code

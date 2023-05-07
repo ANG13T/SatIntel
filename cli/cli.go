@@ -36,7 +36,15 @@ func DisplayFunctions(x int) {
 		osint.OrbitalElement()
 		Banner()
 		Option()
-	} else if (x == 4) {
+	} else if (x == 2) {
+		osint.SatellitePositionVisualization()
+		Banner()
+		Option()
+	} else if (x == 3) {
+		osint.SatellitePositionVisualization()
+		Banner()
+		Option()
+	}else if (x == 4) {
 		osint.TLEParser()
 		Banner()
 		Option()

@@ -12,5 +12,6 @@ import (
 func main() {
 	os.Setenv("SPACE_TRACK_USERNAME", "username")
 	os.Setenv("SPACE_TRACK_PASSWORD", "password")
+	os.Setenv("N2YO_API_KEY", "api-key")
 	cli.SatIntel()
 }

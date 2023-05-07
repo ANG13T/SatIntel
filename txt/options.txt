@@ -4,7 +4,7 @@
 
                         [ 2 ]   Satellite Position Visualization
 
-                        [ 3 ]   Visual and Radio Passes Predictions 
+                        [ 3 ]   Orbital Predictions (Visual, Radio, and SGP4)
 
                         [ 4 ]   TLE Parser
 
