@@ -36,7 +36,6 @@ func SatellitePositionVisualization() {
 	return
 }
 
-// Show visualization and info in box
 func GetLocation(norad string) {
 	fmt.Print("\n ENTER LATITUDE > ")
 	var latitude string
