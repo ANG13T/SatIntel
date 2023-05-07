@@ -11,6 +11,7 @@ import (
 	"strings"
 	"encoding/json"
 	"net/http"	
+	"github.com/manifoldco/promptui"
 	"net/url"
 )
 
@@ -40,6 +41,8 @@ type field string
 type orderBy string
 const authURL = "https://www.space-track.org/ajaxauth/login"
 const baseurl = "https://www.space-track.org/basicspacedata/query/class"
+
+// TODO: init invalid
 
 // Orbital Element Data Display Code
 func OrbitalElement() {
@@ -75,8 +78,21 @@ func OrbitalElement() {
 		if err := json.Unmarshal(respData, &sats); err != nil {
 			fmt.Println("2-")
 		}
-	
-		fmt.Println(sats, len(sats))
+		
+		var satStrings []string
+		for _, sat := range sats {
+			satStrings = append(satStrings, sat.SATNAME + " (" + sat.NORAD_CAT_ID + ")")
+		}
+		prompt := promptui.Select{
+			Label: "Select a Satellite 🛰",
+			Items: satStrings,
+		}
+		_, result, err := prompt.Run()
+		if err != nil {
+			fmt.Printf("Prompt failed %v\n", err)
+			return
+		}
+		PrintNORADInfo(extractNorad(result))
 
 	} else if (selection == 2) {
 		fmt.Print("\n ENTER NORAD ID > ")
@@ -86,6 +102,15 @@ func OrbitalElement() {
 	} 
 
 	return
+}
+
+func extractNorad(str string) string {
+    start := strings.Index(str, "(")
+    end := strings.Index(str, ")")
+    if start == -1 || end == -1 || start >= end {
+        return ""
+    }
+    return str[start+1:end]
 }
 
 func PrintNORADInfo(norad string) {
