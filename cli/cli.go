@@ -41,7 +41,7 @@ func DisplayFunctions(x int) {
 		Banner()
 		Option()
 	} else if (x == 3) {
-		osint.SatellitePositionVisualization()
+		osint.OrbitalPrediction()
 		Banner()
 		Option()
 	}else if (x == 4) {

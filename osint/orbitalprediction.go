@@ -4,7 +4,12 @@ import (
 	"fmt"
 	"github.com/iskaa02/qalam/gradient"
 	"io/ioutil"
-	"github.com/joshuaferrara/go-satellite"
+	// "github.com/joshuaferrara/go-satellite"
+	"strconv"
+	"os"
+	"github.com/TwiN/go-color"
+	"net/http"
+	"encoding/json"
 )
 
 func OrbitalPrediction() {
@@ -12,9 +17,9 @@ func OrbitalPrediction() {
 	opt,_:=gradient.NewGradient("#1179ef", "cyan")
 	opt.Print("\n" + string(options))
 	var selection int = Option(0, 4)
-
+	
 	if (selection == 1) {
-
+		GetVisualPrediction()
 	} else if (selection == 2) {
 
 	} else if (selection == 3) {
@@ -24,9 +29,9 @@ func OrbitalPrediction() {
 	return
 }
 
-func GetVisualPrediction(norad string) {
+func GetVisualPrediction() {
 	selection := SatelliteSelection()
-	if selection == nil {
+	if selection.norad == "" {
 		fmt.Println(color.Ize(color.Red, "  [!] ERROR: INVALID INPUT"))
 		return
 	}
@@ -48,7 +53,7 @@ func GetVisualPrediction(norad string) {
 
 	_, err := strconv.ParseFloat(latitude, 64)
 	_, err2 := strconv.ParseFloat(longitude, 64)
-	_, err3 := strconv.ParseFloat(altitude)
+	_, err3 := strconv.ParseFloat(altitude, 64)
 	_, err4 := strconv.Atoi(days)
 	_, err5:= strconv.Atoi(vis)
 
@@ -57,7 +62,7 @@ func GetVisualPrediction(norad string) {
 		return
 	}
 
-	url := "https://api.n2yo.com/rest/v1/satellite/visualpasses/" + norad + "/" + latitude + "/" + longitude + "/" + altitude + "/" + days + "/" + vis + "/&apiKey=" + os.Getenv("N2YO_API_KEY")
+	url := "https://api.n2yo.com/rest/v1/satellite/visualpasses/" + selection.norad + "/" + latitude + "/" + longitude + "/" + altitude + "/" + days + "/" + vis + "/&apiKey=" + os.Getenv("N2YO_API_KEY")
     resp, err := http.Get(url)
     if err != nil {
         fmt.Println(err)
@@ -74,19 +79,24 @@ func GetVisualPrediction(norad string) {
 	fmt.Println(color.Ize(color.Purple, "║                    Satellite Information                    ║"))
 	fmt.Println(color.Ize(color.Purple, "╠═════════════════════════════════════════════════════════════╣"))
 
-	fmt.Println(color.Ize(color.Purple, GenRowString("Satellite Name", data.Info.Satname)))
-	fmt.Println(color.Ize(color.Purple, GenRowString("Satellite ID",  fmt.Sprintf("%d", data.Info.Satid))))
+	fmt.Println(color.Ize(color.Purple, GenRowString("Satellite Name", data.Info.SatName)))
+	fmt.Println(color.Ize(color.Purple, GenRowString("Satellite ID",  fmt.Sprintf("%d", data.Info.SatID))))
 	fmt.Println(color.Ize(color.Purple, GenRowString("Transactions Count", fmt.Sprintf("%d", data.Info.TransactionsCount))))
 	fmt.Println(color.Ize(color.Purple, GenRowString("Passes Count", fmt.Sprintf("%d", data.Info.PassesCount))))
 
-	fmt.Println(color.Ize(color.Purple, "╠═════════════════════════════════════════════════════════════╣"))
-	fmt.Println(color.Ize(color.Purple, "║                     Satellite Passes                     ║"))
-	fmt.Println(color.Ize(color.Purple, "╠═════════════════════════════════════════════════════════════╣"))
+	if (len(data.Passes) > 0) {
+		fmt.Println(color.Ize(color.Purple, "╠═════════════════════════════════════════════════════════════╣"))
+		fmt.Println(color.Ize(color.Purple, "║                       Satellite Passes                      ║"))
+		fmt.Println(color.Ize(color.Purple, "╠═════════════════════════════════════════════════════════════╣"))
+	
+		for in, pos := range data.Passes {
+			PrintVisualPass(pos, in == len(data.Passes) - 1)
+		}
+	} else {
+		fmt.Println(color.Ize(color.Purple, "╚═════════════════════════════════════════════════════════════╝\n\n"))
+	}
 
-    for in, pos := range data.Passes {
-		PrintVisualPass(pos, in == len(data.Passes) - 1)
-    }
-
+	return
 }
 
 func GetRadioPrediction() {
@@ -97,7 +107,7 @@ func GetSGP4Prediction() {
 	
 }
 
-func SatelliteSelection() SatelliteSelection {
+func SatelliteSelection() SatelliteSelectionType {
 	options, _ := ioutil.ReadFile("txt/orbital_element.txt")
 	opt,_:=gradient.NewGradient("#1179ef", "cyan")
 	opt.Print("\n" + string(options))
@@ -106,22 +116,22 @@ func SatelliteSelection() SatelliteSelection {
 		result := SelectSatellite()
 
 		if (result == "") {
-			return
+			return SatelliteSelectionType{}
 		}
 
-		return SatelliteSelection{norad: extractNorad(result), name: result}
+		return SatelliteSelectionType{norad: extractNorad(result), name: result}
 
 	} else if (selection == 2) {
 		fmt.Print("\n ENTER NORAD ID > ")
 		var norad string
 		fmt.Scanln(&norad)
-		return SatelliteSelection{norad: norad, name: "UNSPECIFIED"}
+		return SatelliteSelectionType{norad: norad, name: "UNSPECIFIED"}
 	}
 
-	return nil
+	return SatelliteSelectionType{}
 }
 
-type SatelliteSelection struct {
+type SatelliteSelectionType struct {
 	norad string
 	name string
 }
@@ -153,14 +163,14 @@ type Pass struct {
 	Duration        int `json:"duration"`
 }
 
-func PrintVisualPass (pass Pass) {
+func PrintVisualPass (pass Pass, last bool) {
 	fmt.Println(color.Ize(color.Purple, GenRowString("Start Azimuth", fmt.Sprintf("%f", pass.StartAz))))
 	fmt.Println(color.Ize(color.Purple, GenRowString("Start Azimuth Compass", pass.StartAzCompass)))
 	fmt.Println(color.Ize(color.Purple, GenRowString("Start Elevation", fmt.Sprintf("%f", pass.StartEl))))
 	fmt.Println(color.Ize(color.Purple, GenRowString("Start UTC", fmt.Sprintf("%d", pass.StartUTC))))
 	fmt.Println(color.Ize(color.Purple, GenRowString("Azimuth for Max Elevation", fmt.Sprintf("%f", pass.MaxAz))))
 	fmt.Println(color.Ize(color.Purple, GenRowString("Azimuth Compass for Max Elevation", pass.MaxAzCompass)))
-	fmt.Println(color.Ize(color.Purple, GenRowString("Max Elevation", fmt.Sprintf("%d", pass.MaxEl))))
+	fmt.Println(color.Ize(color.Purple, GenRowString("Max Elevation", fmt.Sprintf("%f", pass.MaxEl))))
 	fmt.Println(color.Ize(color.Purple, GenRowString("Max UTC", fmt.Sprintf("%d", pass.MaxUTC))))
 	fmt.Println(color.Ize(color.Purple, GenRowString("End Azimuth", fmt.Sprintf("%f", pass.EndAz))))
 	fmt.Println(color.Ize(color.Purple, GenRowString("End Azimuth Compass", pass.EndAzCompass)))
