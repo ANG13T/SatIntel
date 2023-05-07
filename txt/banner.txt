@@ -11,7 +11,7 @@
                \\.___./ //\      ,_\     .     .                                                            .
   .           .    \ //////\   /    \                 .    .      Satellite OSINT CLI Tool          .            .
                .   ///////// \|      |    .                    
-      .           ///////// .  \ __ /          .                Made by Angelina Tsuboi (G4LXY)             .
+      .           ///////// .  \ __ /          .               Made by Angelina Tsuboi (G4LXY)              .
                  /////////                              .               .                   .
         .   .   /////////     .     .                           .                   .                   .     .
  .             --------   .                  ..             .               .                .
