@@ -1,6 +1,5 @@
 package osint
 
-// Struct for holding satellite information during and before propagation
 type Satellite struct {
     INTLDES      string  `json:"INTLDES"`
     NORAD_CAT_ID string  `json:"NORAD_CAT_ID"`
@@ -26,9 +25,4 @@ type Satellite struct {
     OBJECT_NAME  string  `json:"OBJECT_NAME"`
     OBJECT_ID    string  `json:"OBJECT_ID"`
     OBJECT_NUMBER string `json:"OBJECT_NUMBER"`
-}
-
-
-type GravConst struct {
-	mu, radiusearthkm, xke, tumin, j2, j3, j4, j3oj2 float64
 }
