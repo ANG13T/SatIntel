@@ -5,16 +5,12 @@ import (
 	"fmt"
 	"github.com/iskaa02/qalam/gradient"	
 	"encoding/json"
+	"github.com/TwiN/go-color"
     "net/http"
+	"strconv"
+	"os"
 )
 
-type Marker struct {
-	X int
-	Y int
-}
-
-
-// Satellite Position Visualization Code
 func SatellitePositionVisualization() {
 	options, _ := ioutil.ReadFile("txt/orbital_element.txt")
 	opt,_:=gradient.NewGradient("#1179ef", "cyan")
@@ -28,14 +24,13 @@ func SatellitePositionVisualization() {
 			return
 		}
 
-		// PrintNORADInfo(extractNorad(result), result)
 		GetLocation(extractNorad(result))
 
 	} else if (selection == 2) {
 		fmt.Print("\n ENTER NORAD ID > ")
 		var norad string
 		fmt.Scanln(&norad)
-		PrintNORADInfo(norad, "UNSPECIFIED")
+		GetLocation(norad)
 	} 
 
 	return
@@ -43,16 +38,26 @@ func SatellitePositionVisualization() {
 
 // Show visualization and info in box
 func GetLocation(norad string) {
-	// fmt.Print("\n ENTER LATITUDE > ")
-	// var latitude string
-	// fmt.Print("\n ENTER LONGITUDE > ")
-	// var longitude string
-	// fmt.Print("\n ENTER ALTITUDE > ")
-	// var altitude string
+	fmt.Print("\n ENTER LATITUDE > ")
+	var latitude string
+	fmt.Scanln(&latitude)
+	fmt.Print("\n ENTER LONGITUDE > ")
+	var longitude string
+	fmt.Scanln(&longitude)
+	fmt.Print("\n ENTER ALTITUDE > ")
+	var altitude string
+	fmt.Scanln(&altitude)
 
-	// marker := getXYfromLonLat(strconv.Atoi(latitude, longitude))
+	_, err := strconv.ParseFloat(latitude, 64)
+	_, err2 := strconv.ParseFloat(longitude, 64)
+	_, err3 := strconv.Atoi(altitude)
 
-	url := "https://api.n2yo.com/rest/v1/satellite/positions/25544/41.702/-76.014/0/2/&apiKey=46REG9-PS2V7M-H3B76Q-5103"
+	if err != nil || err2 != nil || err3 != nil {
+		fmt.Println(color.Ize(color.Red, "  [!] ERROR: INVALID INPUT"))
+		return
+	}
+
+	url := "https://api.n2yo.com/rest/v1/satellite/positions/" + norad + "/" + latitude + "/" + longitude + "/" + altitude + "/2/&apiKey=" + os.Getenv("N2YO_API_KEY")
     resp, err := http.Get(url)
     if err != nil {
         fmt.Println(err)
@@ -65,41 +70,38 @@ func GetLocation(norad string) {
         fmt.Println(err)
     }
 
-    fmt.Printf("Satellite Name: %s\n", data.SatelliteInfo.Satname)
-    fmt.Printf("Satellite ID: %d\n", data.SatelliteInfo.Satid)
+	fmt.Println(color.Ize(color.Purple, "\n╔═════════════════════════════════════════════════════════════╗"))
+	fmt.Println(color.Ize(color.Purple, "║                    Satellite Information                    ║"))
+	fmt.Println(color.Ize(color.Purple, "╠═════════════════════════════════════════════════════════════╣"))
 
-    for _, pos := range data.Positions {
-        fmt.Printf("Latitude: %f\n", pos.Satlatitude)
-        fmt.Printf("Longitude: %f\n", pos.Satlongitude)
-        fmt.Printf("Altitude: %f\n", pos.Sataltitude)
-        fmt.Printf("Azimuth: %f\n", pos.Azimuth)
-        fmt.Printf("Elevation: %f\n", pos.Elevation)
-        fmt.Printf("RA: %f\n", pos.Ra)
-        fmt.Printf("Dec: %f\n", pos.Dec)
-        fmt.Printf("Timestamp: %d\n", pos.Timestamp)
-        fmt.Println("------------------------")
+	fmt.Println(color.Ize(color.Purple, GenRowString("Satellite Name", data.SatelliteInfo.Satname)))
+	fmt.Println(color.Ize(color.Purple, GenRowString("Satellite ID",  fmt.Sprintf("%d", data.SatelliteInfo.Satid))))
+	// fmt.Println(color.Ize(color.Purple, "║                                                             ║"))
+
+	fmt.Println(color.Ize(color.Purple, "╠═════════════════════════════════════════════════════════════╣"))
+	fmt.Println(color.Ize(color.Purple, "║                     Satellite Positions                     ║"))
+	fmt.Println(color.Ize(color.Purple, "╠═════════════════════════════════════════════════════════════╣"))
+
+    for in, pos := range data.Positions {
+		PrintSatellitePosition(pos, in == len(data.Positions) - 1)
     }
 
 }
 
 func DisplayMap() {
-
+	// TODO
 }
 
-func getXYfromLonLat(lat int, lon int) Marker {
-	marker := Marker{}
-    // Normalise the X, Y in their min -> max space
-    normalX := (lat + 219) / (293 + 219);
-    normalY := (lon + 244) / (266 + 244);
-
-    // Stretch them to match the ASCII map
-	const width = 70
-	const height = 42
-    realX := normalX * width - 3;
-    realY := normalY * height - 9;
-
-	marker.X = realX
-	marker.Y = realY
-
-    return marker
+func PrintSatellitePosition (pos Position, last bool) {
+	fmt.Println(color.Ize(color.Purple, GenRowString("Latitude", fmt.Sprintf("%f", pos.Satlatitude))))
+	fmt.Println(color.Ize(color.Purple, GenRowString("Longitude", fmt.Sprintf("%f", pos.Satlongitude))))
+	fmt.Println(color.Ize(color.Purple, GenRowString("Altitude", fmt.Sprintf("%f", pos.Sataltitude))))
+	fmt.Println(color.Ize(color.Purple, GenRowString("Right Ascension", fmt.Sprintf("%f", pos.Azimuth))))
+	fmt.Println(color.Ize(color.Purple, GenRowString("Satellite Declination", fmt.Sprintf("%f", pos.Dec))))
+	fmt.Println(color.Ize(color.Purple, GenRowString("Timestamp", fmt.Sprintf("%d", pos.Timestamp))))
+	if (last) {
+		fmt.Println(color.Ize(color.Purple, "╚═════════════════════════════════════════════════════════════╝\n\n"))
+	} else {
+		fmt.Println(color.Ize(color.Purple, "╠═════════════════════════════════════════════════════════════╣"))
+	}
 }
