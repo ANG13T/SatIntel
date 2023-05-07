@@ -13,11 +13,7 @@ import (
 	"net/url"
 )
 
-type field string
-type orderBy string
 const authURL = "https://www.space-track.org/ajaxauth/login"
-const baseurl = "https://www.space-track.org/basicspacedata/query/class"
-
 
 func extractNorad(str string) string {
     start := strings.Index(str, "(")
