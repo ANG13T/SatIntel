@@ -1,5 +1,11 @@
 package osint
 
+import (
+	"fmt"
+	"github.com/iskaa02/qalam/gradient"
+	"io/ioutil"
+)
+
 func OrbitalPrediction() {
 	options, _ := ioutil.ReadFile("txt/orbital_prediction.txt")
 	opt,_:=gradient.NewGradient("#1179ef", "cyan")
@@ -20,7 +26,7 @@ func OrbitalPrediction() {
 		var norad string
 		fmt.Scanln(&norad)
 		GetLocation(norad)
-		
+
 	} else if (selection == 3) {
 
 	}
