@@ -42,8 +42,6 @@ type orderBy string
 const authURL = "https://www.space-track.org/ajaxauth/login"
 const baseurl = "https://www.space-track.org/basicspacedata/query/class"
 
-// TODO: init invalid
-
 // Orbital Element Data Display Code
 func OrbitalElement() {
 	options, _ := ioutil.ReadFile("txt/orbital_element.txt")
@@ -61,24 +59,24 @@ func OrbitalElement() {
 	
 		resp, err := client.PostForm(authURL, vals)
 		if err != nil {
-			fmt.Println("0-")
+			fmt.Println(color.Ize(color.Red, "  [!] ERROR: API REQUEST TO SPACE TRACK"))
 		}
 	
 		defer resp.Body.Close()
 		if resp.StatusCode < 200 || resp.StatusCode >= 300 {
-			fmt.Println("1-")
+			fmt.Println(color.Ize(color.Red, "  [!] ERROR: API REQUEST TO SPACE TRACK"))
 		}
 		respData, err := ioutil.ReadAll(resp.Body)
 	
 		if err != nil {
-			fmt.Println("lols")
+			fmt.Println(color.Ize(color.Red, "  [!] ERROR: API REQUEST TO SPACE TRACK"))
 		}
 	
 		var sats []Satellite
 		if err := json.Unmarshal(respData, &sats); err != nil {
-			fmt.Println("2-")
+			fmt.Println(color.Ize(color.Red, "  [!] ERROR: API REQUEST TO SPACE TRACK"))
 		}
-		
+
 		var satStrings []string
 		for _, sat := range sats {
 			satStrings = append(satStrings, sat.SATNAME + " (" + sat.NORAD_CAT_ID + ")")
@@ -89,7 +87,7 @@ func OrbitalElement() {
 		}
 		_, result, err := prompt.Run()
 		if err != nil {
-			fmt.Printf("Prompt failed %v\n", err)
+			fmt.Println(color.Ize(color.Red, "  [!] PROMPT FAILED"))
 			return
 		}
 		PrintNORADInfo(extractNorad(result))
@@ -123,17 +121,17 @@ func PrintNORADInfo(norad string) {
 
 	resp, err := client.PostForm(authURL, vals)
 	if err != nil {
-		fmt.Println("0-")
+		fmt.Println(color.Ize(color.Red, "  [!] ERROR: API REQUEST TO SPACE TRACK"))
 	}
 
 	defer resp.Body.Close()
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
-		fmt.Println("1-")
+		fmt.Println(color.Ize(color.Red, "  [!] ERROR: API REQUEST TO SPACE TRACK"))
 	}
 	respData, err := ioutil.ReadAll(resp.Body)
 
 	if err != nil {
-		fmt.Println("lols")
+		fmt.Println(color.Ize(color.Red, "  [!] ERROR: API REQUEST TO SPACE TRACK"))
 	}
 
 	tleLines := strings.Fields(string(respData))

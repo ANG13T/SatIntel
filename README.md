@@ -3,12 +3,10 @@
 Made by Angelina Tsuboi (G4LXY)
 
 ## TODO
-- 1
-
 - 2
 - 3
-- Flags?
 - help
+
 - Documentation
 - article
 
