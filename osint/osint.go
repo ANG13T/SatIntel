@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 	"github.com/TwiN/go-color"
-	"github.com/iskaa02/qalam/gradient"	
 	"io/ioutil"
 	"strconv"
 	"strings"
@@ -19,31 +18,6 @@ type orderBy string
 const authURL = "https://www.space-track.org/ajaxauth/login"
 const baseurl = "https://www.space-track.org/basicspacedata/query/class"
 
-// Orbital Element Data Display Code
-func OrbitalElement() {
-	options, _ := ioutil.ReadFile("txt/orbital_element.txt")
-	opt,_:=gradient.NewGradient("#1179ef", "cyan")
-	opt.Print("\n" + string(options))
-	var selection int = Option(0, 3)
-
-	if (selection == 1) {
-		result := SelectSatellite()
-
-		if (result == "") {
-			return
-		}
-
-		PrintNORADInfo(extractNorad(result), result)
-
-	} else if (selection == 2) {
-		fmt.Print("\n ENTER NORAD ID > ")
-		var norad string
-		fmt.Scanln(&norad)
-		PrintNORADInfo(norad, "UNSPECIFIED")
-	} 
-
-	return
-}
 
 func extractNorad(str string) string {
     start := strings.Index(str, "(")
@@ -131,32 +105,6 @@ func SelectSatellite() string {
 		return ""
 	}
 	return result
-}
-
-// Satellite Position Visualization Code
-func SatellitePositionVisualization() {
-	options, _ := ioutil.ReadFile("txt/orbital_element.txt")
-	opt,_:=gradient.NewGradient("#1179ef", "cyan")
-	opt.Print("\n" + string(options))
-	var selection int = Option(0, 3)
-
-	if (selection == 1) {
-		result := SelectSatellite()
-
-		if (result == "") {
-			return
-		}
-
-		PrintNORADInfo(extractNorad(result), result)
-
-	} else if (selection == 2) {
-		fmt.Print("\n ENTER NORAD ID > ")
-		var norad string
-		fmt.Scanln(&norad)
-		PrintNORADInfo(norad, "UNSPECIFIED")
-	} 
-
-	return
 }
 
 func GenRowString(intro string, input string) string{
