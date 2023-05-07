@@ -127,8 +127,6 @@ github.com/inconshreveable/mousetrap v1.1.0 h1:wN+x4NVGpMsO7ErUn/mUI3vEoE6Jt13X2
 github.com/inconshreveable/mousetrap v1.1.0/go.mod h1:vpF70FUmC8bwa3OWnCshd2FqLfsEA9PFc4w1p2J65bw=
 github.com/iskaa02/qalam v0.3.0 h1:yA7+MXkXbkP0HRDpkODC3bgQG0e5mjsYOsawwYP2v5k=
 github.com/iskaa02/qalam v0.3.0/go.mod h1:BRa4ht8cMjl27tNzhtuach90dBTma5seOzjpMGA5MY4=
-github.com/joshuaferrara/go-satellite v0.0.0-20220611180459-512638c64e5b h1:JlltDRgni6FuoFwluvoZCrE6cmpojccO4WsqeYlFJLE=
-github.com/joshuaferrara/go-satellite v0.0.0-20220611180459-512638c64e5b/go.mod h1:msW2QeN9IsnRyvuK8OBAzBwn6DHwXpiAiqBk8dbLfrU=
 github.com/jstemmer/go-junit-report v0.0.0-20190106144839-af01ea7f8024/go.mod h1:6v2b51hI/fHJwM22ozAgKL4VKDeJcHhJFhtBdhmNjmU=
 github.com/jstemmer/go-junit-report v0.9.1/go.mod h1:Brl9GWCQeLvo8nXZwPNNblvFj/XSXhF0NWZEnDohbsk=
 github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+oQHNcck=

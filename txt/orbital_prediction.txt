@@ -4,9 +4,7 @@
 
                         [ 2 ]   Radio Satellite Predictions
 
-                        [ 3 ]   SGP4 Satellite Predictions
-
-                        [ 4 ]   Back to Main Menu
+                        [ 3 ]   Back to Main Menu
 
                         [ 0 ]   Exit SatIntel
 

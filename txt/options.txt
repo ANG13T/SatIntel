@@ -4,7 +4,7 @@
 
                         [ 2 ]   Satellite Telemetry Display
 
-                        [ 3 ]   Orbital Predictions (Visual, Radio, and SGP4)
+                        [ 3 ]   Orbital Predictions (Visual and Radio)
 
                         [ 4 ]   TLE Parser
 

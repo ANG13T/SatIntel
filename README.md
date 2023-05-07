@@ -3,10 +3,6 @@
 Made by Angelina Tsuboi (G4LXY)
 
 ## TODO
-- 2
-- 3
-- help
-
 - Documentation
 - article
 
@@ -17,3 +13,4 @@ Made by Angelina Tsuboi (G4LXY)
 
 # TODO
 - map layout
+- joshuaferrara/go-satellite SGP4
