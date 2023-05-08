@@ -1,5 +1,25 @@
 # SatIntel
-<img src="https://github.com/ANG13T/SatIntel/blob/main/assets/image.png" alt="SatIntel Image" width="600"/>
+
+```
+ .       .                   .       .      .     .      .                      .              .
+  .    .         .    .            .     ______ 
+          .             .               ////////                .         .      .       .       .          .
+        .    .   ________   .  .      /////////     .    .
+   .            |.____.  /\         /////////    .                      .               .               .
+               //      \/  |\     /////////
+       .     //          \ |  \ /////////         _______ _______ _______ _____ __   _ _______ _______       .
+            ||           | |  ///////// .     .   |______ |_____|    |      |   | \  |    |    |______ |     
+  .         ||           | |//  /////             ______| |     |    |    __|__ |  \_|    |    |______ |_____  .       
+     .       \\         / //     \/   .                    
+               \\.___./ //\      ,_\     .     .                                                            .
+  .           .    \ //////\   /    \                 .    .      Satellite OSINT CLI Tool          .            .
+               .   ///////// \|      |    .                    
+      .           ///////// .  \ __ /          .               Made by Angelina Tsuboi (G4LXY)              .
+                 /////////                              .               .                   .
+        .   .   /////////     .     .                           .                   .                   .     .
+ .             --------   .                  ..             .               .                .
+          .        .         .                       .                                 .                .
+```
 
 #### SatIntel is a OSINT tool for satellite reconnaissance made with Golang. The tool can extract satellite telemetry, receive orbital predictions, and parse TLEs.
 
@@ -8,6 +28,9 @@
 - Display Satellite Telemetry
 - Visual and Radio Orbital Predictions 
 - Parse Two Line Elements (TLE)
+
+### Preview
+<img src="https://github.com/ANG13T/SatIntel/blob/main/assets/image.png" alt="SatIntel Image" width="600"/>
 
 ### Usage
 Make an account at [**Space Track**](space-track.org) save username and password.
