@@ -33,9 +33,9 @@
 <img src="https://github.com/ANG13T/SatIntel/blob/main/assets/image.png" alt="SatIntel Image" width="600"/>
 
 ### Usage
-Make an account at [**Space Track**](space-track.org) save username and password.
+Make an account at [**Space Track**](https://space-track.org) save username and password.
 
-Create an account at [**N2YO**](n2yo.com) and save API key.
+Create an account at [**N2YO**](https://n2yo.com) and save API key.
 
 Update `main.go` to have proper credentials
 ```
@@ -53,8 +53,8 @@ $ go run main.go
 ```
 
 ### APIs Used
-- [Space Track](space-track.org): Retrieve Satellite Catalog and TLE Information
-- [N2YO](n2yo.com/api): Retrieve Passes Predictions
+- [Space Track](https://space-track.org): Retrieve Satellite Catalog and TLE Information
+- [N2YO](https://n2yo.com/api): Retrieve Passes Predictions
 
 ### Upcoming Features
 + [ ] Map Layout of Satellite Positioning
