@@ -56,6 +56,9 @@ $ go run main.go
 - [Space Track](https://space-track.org): Retrieve Satellite Catalog and TLE Information
 - [N2YO](https://n2yo.com/api): Retrieve Passes Predictions
 
+### Satellite OSINT Explained
+To get a general overview of the underlying concepts of this tool, [read this article](https://medium.com/@angelinatsuboi/satellite-osint-space-based-intelligence-in-cybersecurity-e87f9dca4d81).
+
 ### Upcoming Features
 + [ ] Map Layout of Satellite Positioning
 + [ ] Including the [SGP4 Algorithm](joshuaferrara/go-satellite) for Position Prediction 
