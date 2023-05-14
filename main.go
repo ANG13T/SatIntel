@@ -13,7 +13,7 @@ import (
 	"github.com/ANG13T/SatIntel/cli"
 )
 
-func setEnvironmentalVariable(env_key string) string {
+func setEnvironmentalVariable(envKey string) string {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Printf("%s: ", envKey)
 	input, err := reader.ReadString('\n')
@@ -33,10 +33,10 @@ func setEnvironmentalVariable(env_key string) string {
 }
 
 
-func checkEnvironmentalVariable(env_key string) {
-	_environmental_variable, found := os.LookupEnv(env_key)
+func checkEnvironmentalVariable(envKey string) {
+	_, found := os.LookupEnv(envKey)
 	if !found {
-		_environmental_variable = setEnvironmentalVariable(env_key)
+		setEnvironmentalVariable(envKey)
 	}
 }
 
