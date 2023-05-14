@@ -3,10 +3,10 @@ package osint
 import (
 	"io/ioutil"
 	"fmt"
-	"github.com/iskaa02/qalam/gradient"	
+	"github.com/iskaa02/qalam/gradient"
 	"encoding/json"
 	"github.com/TwiN/go-color"
-    "net/http"
+  "net/http"
 	"strconv"
 	"os"
 )
@@ -31,7 +31,7 @@ func SatellitePositionVisualization() {
 		var norad string
 		fmt.Scanln(&norad)
 		GetLocation(norad)
-	} 
+	}
 
 	return
 }
