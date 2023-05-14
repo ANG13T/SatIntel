@@ -1,7 +1,7 @@
 /*
 Copyright © 2023 Angelina Tsuboi angelinatsuboi@proton.me
-
 */
+
 package main
 
 import (
@@ -9,35 +9,42 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
 	"github.com/ANG13T/SatIntel/cli"
 )
 
-
-func set_environmental_variable(env_key string) {
+func setEnvironmentalVariable(env_key string) string {
 	reader := bufio.NewReader(os.Stdin)
-	fmt.Print(env_key + ": ")
+	fmt.Printf("%s: ", envKey)
 	input, err := reader.ReadString('\n')
 
 	if err != nil {
 		fmt.Println("Error reading input:", err)
 		os.Exit(1)
 	}
+	input = strings.TrimSuffix(input, "\n")
 
-	os.Setenv(env_key, strings.TrimSpace(input))
+	if err := os.Setenv(envKey, input); err != nil {
+		fmt.Printf("Error setting environment variable %s: %v\n", envKey, err)
+		os.Exit(1)
+	}
+
+	return input
 }
 
 
-func check_environmental_variable(env_key string) {
-	if os.Getenv(env_key) == "" {
-		set_environmental_variable(env_key)
+func checkEnvironmentalVariable(env_key string) {
+	_environmental_variable, found := os.LookupEnv(env_key)
+	if !found {
+		_environmental_variable = setEnvironmentalVariable(env_key)
 	}
 }
 
 
 func main() {
-	check_environmental_variable("SPACE_TRACK_USERNAME")
-	check_environmental_variable("SPACE_TRACK_PASSWORD")
-	check_environmental_variable("N2YO_API_KEY")
+	checkEnvironmentalVariable("SPACE_TRACK_USERNAME")
+	checkEnvironmentalVariable("SPACE_TRACK_PASSWORD")
+	checkEnvironmentalVariable("N2YO_API_KEY")
 
 	cli.SatIntel()
 }
