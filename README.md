@@ -2,18 +2,18 @@
 
 ```
  .       .                   .       .      .     .      .                      .              .
-    .           .            .     ________ 
+    .           .            .     ________
                   .               /////////                .         .      .       .       .          .
         .   ________   .  .      /////////     .    .
            |.____.  /\         /////////    .                      .               .               .
   .       //      \/  |\     /////////
          //          \ |  \ /////////         _______ _______ _______ _____ __   _ _______ _______       .
-        ||           | |  ///////// .     .   |______ |_____|    |      |   | \  |    |    |______ |     
-   .    ||           | |//  /////             ______| |     |    |    __|__ |  \_|    |    |______ |_____  .       
-        \\         / //     \/   .                    
+        ||           | |  ///////// .     .   |______ |_____|    |      |   | \  |    |    |______ |
+   .    ||           | |//  /////             ______| |     |    |    __|__ |  \_|    |    |______ |_____  .
+        \\         / //     \/   .
           \\.___./ //\      ,_\     .     .                                                            .
   .       .    \ //////\   /    \                 .    .      Satellite OSINT CLI Tool          .            .
-          .    ///////// \|      |    .                    
+          .    ///////// \|      |    .
        .      ///////// .  \ __ /          .               Made by Angelina Tsuboi (G4LXY)              .
  .           /////////                              .               .                   .
    .   .    /////////     .     .                           .                   .                   .     .
@@ -26,7 +26,7 @@
 ### Features
 - Satellite Catalog Retrieval from NORAD ID or Selection Menu
 - Display Satellite Telemetry
-- Visual and Radio Orbital Predictions 
+- Visual and Radio Orbital Predictions
 - Parse Two Line Elements (TLE)
 
 ### Preview
@@ -37,17 +37,17 @@ Make an account at [**Space Track**](https://space-track.org) save username and 
 
 Create an account at [**N2YO**](https://n2yo.com) and save API key.
 
-Update `main.go` to have proper credentials
-```
-os.Setenv("SPACE_TRACK_USERNAME", "username")
-os.Setenv("SPACE_TRACK_PASSWORD", "password")
-os.Setenv("N2YO_API_KEY", "api-key")
+The CLI will prompt for both Space Track and N2YO credentials if none are present in your environmental variables. To export your credentials enter the following commands:
+```bash
+$ export SPACE_TRACK_USERNAME="YOUR_USER_NAME"
+$ export SPACE_TRACK_PASSWORD="YOUR_PASSWORD"
+$ export N2YO_API_KEY="YOUR_API_KEY"
 ```
 
 To build from source, you will need Go installed.
 
 ```bash
-$ export GO111MODULE=on 
+$ export GO111MODULE=on
 $ go get ./...
 $ go run main.go
 ```
@@ -61,5 +61,5 @@ To get a general overview of the underlying concepts of this tool, [read this ar
 
 ### Upcoming Features
 + [ ] Map Layout of Satellite Positioning
-+ [ ] Including the [SGP4 Algorithm](joshuaferrara/go-satellite) for Position Prediction 
++ [ ] Including the [SGP4 Algorithm](joshuaferrara/go-satellite) for Position Prediction
 
