@@ -2,62 +2,125 @@ package osint
 
 import (
 	"fmt"
-	"github.com/TwiN/go-color"
 	"strconv"
 	"strings"
+
+	"github.com/TwiN/go-color"
+	"github.com/manifoldco/promptui"
 )
 
 type TLE struct {
-	CommonName string
-	SatelliteCatalogNumber int
-	ElsetClassificiation string
-	InternationalDesignator string
-	ElementSetEpoch float64
-	FirstDerivativeMeanMotion float64
+	CommonName                 string
+	SatelliteCatalogNumber     int
+	ElsetClassificiation       string
+	InternationalDesignator    string
+	ElementSetEpoch            float64
+	FirstDerivativeMeanMotion  float64
 	SecondDerivativeMeanMotion string
-	BDragTerm string
-	ElementSetType int
-	ElementNumber int
-	ChecksumOne int
-	OrbitInclination float64
-	RightAscension float64
-	Eccentrcity float64
-	Perigee float64
-	MeanAnamoly float64
-	MeanMotion float64
-	RevolutionNumber int
-	ChecksumTwo int
+	BDragTerm                  string
+	ElementSetType             int
+	ElementNumber              int
+	ChecksumOne                int
+	OrbitInclination           float64
+	RightAscension             float64
+	Eccentrcity                float64
+	Perigee                    float64
+	MeanAnamoly                float64
+	MeanMotion                 float64
+	RevolutionNumber           int
+	ChecksumTwo                int
 }
 
+// ConstructTLE parses two-line element data into a TLE struct.
+// It handles variable field counts gracefully and returns an empty TLE if parsing fails.
 func ConstructTLE(one string, two string, three string) TLE {
 	tle := TLE{}
 	tle.CommonName = one
 	firstArr := strings.Fields(two)
 	secondArr := strings.Fields(three)
-	tle.SatelliteCatalogNumber, _ = strconv.Atoi(firstArr[1][:len(firstArr[1])-1])
-	tle.ElsetClassificiation = string(firstArr[1][len(firstArr[1])-1])
-	tle.InternationalDesignator = firstArr[2]
-	tle.ElementSetEpoch, _ = strconv.ParseFloat(firstArr[3], 64)
-	tle.FirstDerivativeMeanMotion, _ = strconv.ParseFloat(firstArr[4], 64)
-	tle.SecondDerivativeMeanMotion = firstArr[5]
-	tle.BDragTerm = firstArr[6]
-	tle.ElementSetType, _ = strconv.Atoi(firstArr[7])
-	tle.ElementNumber, _ = strconv.Atoi(firstArr[8][:len(firstArr[8])-1])
-	tle.ChecksumOne, _ = strconv.Atoi(string(firstArr[8][len(firstArr[8])-1]))
-	tle.SatelliteCatalogNumber, _ = strconv.Atoi(secondArr[1])
-	tle.OrbitInclination, _ = strconv.ParseFloat(secondArr[2], 64)
-	tle.RightAscension, _ = strconv.ParseFloat(secondArr[3], 64)
-	tle.Eccentrcity, _ = strconv.ParseFloat("0." + secondArr[4], 64)
-	tle.Perigee, _ = strconv.ParseFloat(secondArr[5], 64)
-	tle.MeanAnamoly, _ = strconv.ParseFloat(secondArr[6], 64)
-	tle.MeanMotion, _ = strconv.ParseFloat(secondArr[7][:11], 64)
-	tle.RevolutionNumber, _ = strconv.Atoi(secondArr[7][11:16])
-	tle.ChecksumTwo, _ = strconv.Atoi(string(secondArr[7][len(secondArr[7])-1]))
+
+	if len(firstArr) < 4 {
+		return tle
+	}
+	if len(secondArr) < 3 {
+		return tle
+	}
+
+	if len(firstArr) > 1 && len(firstArr[1]) > 0 {
+		catalogStr := firstArr[1]
+		if len(catalogStr) > 1 {
+			tle.SatelliteCatalogNumber, _ = strconv.Atoi(catalogStr[:len(catalogStr)-1])
+			tle.ElsetClassificiation = string(catalogStr[len(catalogStr)-1])
+		} else {
+			tle.SatelliteCatalogNumber, _ = strconv.Atoi(catalogStr)
+		}
+	}
+	if len(firstArr) > 2 {
+		tle.InternationalDesignator = firstArr[2]
+	}
+	if len(firstArr) > 3 {
+		tle.ElementSetEpoch, _ = strconv.ParseFloat(firstArr[3], 64)
+	}
+	if len(firstArr) > 4 {
+		tle.FirstDerivativeMeanMotion, _ = strconv.ParseFloat(firstArr[4], 64)
+	}
+	if len(firstArr) > 5 {
+		tle.SecondDerivativeMeanMotion = firstArr[5]
+	}
+	if len(firstArr) > 6 {
+		tle.BDragTerm = firstArr[6]
+	}
+	if len(firstArr) > 7 {
+		tle.ElementSetType, _ = strconv.Atoi(firstArr[7])
+	}
+	if len(firstArr) > 8 {
+		lastField := firstArr[8]
+		if len(lastField) > 1 {
+			tle.ElementNumber, _ = strconv.Atoi(lastField[:len(lastField)-1])
+			tle.ChecksumOne, _ = strconv.Atoi(string(lastField[len(lastField)-1]))
+		} else if len(lastField) > 0 {
+			tle.ElementNumber, _ = strconv.Atoi(lastField)
+		}
+	}
+
+	if len(secondArr) > 1 {
+		tle.SatelliteCatalogNumber, _ = strconv.Atoi(secondArr[1])
+	}
+	if len(secondArr) > 2 {
+		tle.OrbitInclination, _ = strconv.ParseFloat(secondArr[2], 64)
+	}
+	if len(secondArr) > 3 {
+		tle.RightAscension, _ = strconv.ParseFloat(secondArr[3], 64)
+	}
+	if len(secondArr) > 4 {
+		tle.Eccentrcity, _ = strconv.ParseFloat("0."+secondArr[4], 64)
+	}
+	if len(secondArr) > 5 {
+		tle.Perigee, _ = strconv.ParseFloat(secondArr[5], 64)
+	}
+	if len(secondArr) > 6 {
+		tle.MeanAnamoly, _ = strconv.ParseFloat(secondArr[6], 64)
+	}
+	if len(secondArr) > 7 {
+		meanMotionStr := secondArr[7]
+		if len(meanMotionStr) >= 11 {
+			tle.MeanMotion, _ = strconv.ParseFloat(meanMotionStr[:11], 64)
+			if len(meanMotionStr) >= 16 {
+				tle.RevolutionNumber, _ = strconv.Atoi(meanMotionStr[11:16])
+			}
+		} else {
+			tle.MeanMotion, _ = strconv.ParseFloat(meanMotionStr, 64)
+		}
+		if len(meanMotionStr) > 0 {
+			tle.ChecksumTwo, _ = strconv.Atoi(string(meanMotionStr[len(meanMotionStr)-1]))
+		}
+	}
 
 	return tle
 }
 
-func PrintTLE (tle TLE) {
+// PrintTLE displays the TLE data in a formatted table.
+func PrintTLE(tle TLE) {
 	fmt.Println(color.Ize(color.Purple, "\n╔═════════════════════════════════════════════════════════════╗"))
 	fmt.Println(color.Ize(color.Purple, GenRowString("Name", tle.CommonName)))
 	fmt.Println(color.Ize(color.Purple, GenRowString("Satellite Catalog Number", fmt.Sprintf("%d", tle.SatelliteCatalogNumber))))
@@ -78,6 +141,25 @@ func PrintTLE (tle TLE) {
 	fmt.Println(color.Ize(color.Purple, GenRowString("Mean Motion (revolutions/day)", fmt.Sprintf("%f", tle.MeanMotion))))
 	fmt.Println(color.Ize(color.Purple, GenRowString("Revolution Number at Epoch", fmt.Sprintf("%d", tle.RevolutionNumber))))
 	fmt.Println(color.Ize(color.Purple, GenRowString("Checksum Line Two", fmt.Sprintf("%d", tle.ChecksumTwo))))
-	
+
 	fmt.Println(color.Ize(color.Purple, "╚═════════════════════════════════════════════════════════════╝ \n\n"))
+
+	// Offer export option
+	exportPrompt := promptui.Prompt{
+		Label:     "Export TLE data? (y/n)",
+		Default:   "n",
+		AllowEdit: true,
+	}
+	exportAnswer, _ := exportPrompt.Run()
+	if strings.ToLower(strings.TrimSpace(exportAnswer)) == "y" {
+		defaultFilename := fmt.Sprintf("tle_%s_%d", strings.ReplaceAll(tle.CommonName, " ", "_"), tle.SatelliteCatalogNumber)
+		format, filePath, err := showExportMenu(defaultFilename)
+		if err == nil {
+			if err := ExportTLE(tle, format, filePath); err != nil {
+				fmt.Println(color.Ize(color.Red, "  [!] ERROR: Failed to export: "+err.Error()))
+			} else {
+				fmt.Println(color.Ize(color.Green, fmt.Sprintf("  [+] Exported to: %s", filePath)))
+			}
+		}
+	}
 }

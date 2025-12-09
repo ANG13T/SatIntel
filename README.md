@@ -30,7 +30,7 @@
 - Parse Two Line Elements (TLE)
 
 ### Preview
-<img src="https://github.com/ANG13T/SatIntel/blob/main/assets/image.png" alt="SatIntel Image" width="600"/>
+<img src="./assets/image.png" alt="SatIntel Image" width="600"/>
 
 ### Usage
 Make an account at [**Space Track**](https://space-track.org) save username and password.
