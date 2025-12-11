@@ -1,0 +1,23 @@
+# Environment variables
+.env
+
+# Build artifacts
+SatIntel
+SatIntel.exe
+*.exe
+
+# Go workspace file
+go.work
+
+# Documentation files
+IMPROVEMENTS.md
+IMPROVEMENTS_COMPLETED.md
+TESTING.md
+
+# Test runner (build ignore, but keep in repo)
+run_tests
+run_tests.exe
+
+# User favorites data
+favorites.json
+.satintel/
